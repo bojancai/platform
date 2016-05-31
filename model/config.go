@@ -204,20 +204,29 @@ type ComplianceSettings struct {
 	EnableDaily *bool
 }
 
+type SampleAppSettings struct {
+	Enable         *bool
+	AppUrl         *string
+	IconUrl        *string
+	AppName        *string
+	AppDisplayName *string
+}
+
 type Config struct {
-	ServiceSettings    ServiceSettings
-	TeamSettings       TeamSettings
-	SqlSettings        SqlSettings
-	LogSettings        LogSettings
-	FileSettings       FileSettings
-	EmailSettings      EmailSettings
-	RateLimitSettings  RateLimitSettings
-	PrivacySettings    PrivacySettings
-	SupportSettings    SupportSettings
-	GitLabSettings     SSOSettings
-	GoogleSettings     SSOSettings
-	LdapSettings       LdapSettings
-	ComplianceSettings ComplianceSettings
+	ServiceSettings      ServiceSettings
+	TeamSettings         TeamSettings
+	SqlSettings          SqlSettings
+	LogSettings          LogSettings
+	FileSettings         FileSettings
+	EmailSettings        EmailSettings
+	RateLimitSettings    RateLimitSettings
+	PrivacySettings      PrivacySettings
+	SupportSettings      SupportSettings
+	GitLabSettings       SSOSettings
+	GoogleSettings       SSOSettings
+	LdapSettings         LdapSettings
+	ComplianceSettings   ComplianceSettings
+	SampleAppSettings    SampleAppSettings
 }
 
 func (o *Config) ToJson() string {
@@ -512,6 +521,29 @@ func (o *Config) SetDefaults() {
 	if o.LdapSettings.NicknameAttribute == nil {
 		o.LdapSettings.NicknameAttribute = new(string)
 		*o.LdapSettings.NicknameAttribute = ""
+	}
+
+	if o.SampleAppSettings.Enable == nil {
+		o.SampleAppSettings.Enable = new(bool)
+		*o.SampleAppSettings.Enable = false
+	}
+
+	if !IsSafeLink(o.SampleAppSettings.AppUrl) {
+		*o.SampleAppSettings.AppUrl = ""
+	}
+
+	if !IsSafeLink(o.SampleAppSettings.IconUrl) {
+		*o.SampleAppSettings.IconUrl = ""
+	}
+
+	if o.SampleAppSettings.AppName == nil {
+		o.SampleAppSettings.AppName = new(string)
+		*o.SampleAppSettings.AppName = ""
+	}
+
+	if o.SampleAppSettings.AppDisplayName == nil {
+		o.SampleAppSettings.AppDisplayName = new(string)
+		*o.SampleAppSettings.AppDisplayName = ""
 	}
 }
 
